@@ -11,6 +11,8 @@
     "db:seed": "npx tsx prisma/seed.ts",
     "db:setup": "prisma db push && npx tsx prisma/seed.ts",
     "db:setup:remote": "npx tsx scripts/setup-remote.ts",
+    "db:setup:family": "npx tsx scripts/setup-family.ts",
+    "setup:family": "npx tsx scripts/deploy-family.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {
