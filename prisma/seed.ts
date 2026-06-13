@@ -19,12 +19,13 @@ async function main() {
   ];
 
   for (const user of users) {
+    const username = user.username.trim().toLowerCase();
     const password = await bcrypt.hash(user.password, 10);
     await prisma.user.upsert({
-      where: { username: user.username },
+      where: { username },
       update: { password, displayName: user.displayName },
       create: {
-        username: user.username,
+        username,
         password,
         displayName: user.displayName,
       },
