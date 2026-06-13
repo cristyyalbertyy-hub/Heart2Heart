@@ -34,8 +34,8 @@ npm run db:setup:family
 
 | Quem | Username | Password |
 |------|----------|----------|
-| Mãe | Sofia | sofia2026 |
-| Filho | Lucas | lucas2026 |
+| Mãe | Alex | Alex2026 |
+| Filho | Kiki | kiki2026 |
 
 *(Podes mudar em `.env.family` antes de correr o setup)*
 

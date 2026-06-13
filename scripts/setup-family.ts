@@ -18,14 +18,14 @@ function createPrismaClient() {
 async function seedUsers(prisma: PrismaClient) {
   const users = [
     {
-      username: process.env.MAE_USERNAME ?? "Sofia",
-      password: process.env.MAE_PASSWORD ?? "sofia2026",
-      displayName: process.env.MAE_NAME ?? "Sofia",
+      username: process.env.MAE_USERNAME ?? "Alex",
+      password: process.env.MAE_PASSWORD ?? "Alex2026",
+      displayName: process.env.MAE_NAME ?? "Alex",
     },
     {
-      username: process.env.FILHO_USERNAME ?? "Lucas",
-      password: process.env.FILHO_PASSWORD ?? "lucas2026",
-      displayName: process.env.FILHO_NAME ?? "Lucas",
+      username: process.env.FILHO_USERNAME ?? "Kiki",
+      password: process.env.FILHO_PASSWORD ?? "kiki2026",
+      displayName: process.env.FILHO_NAME ?? "Kiki",
     },
   ];
 
@@ -54,7 +54,7 @@ async function main() {
   });
 
   const prisma = createPrismaClient();
-  console.log("A criar contas Sofia e Lucas...");
+  console.log("A criar contas Alex e Kiki...");
   await seedUsers(prisma);
   await prisma.$disconnect();
 
