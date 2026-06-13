@@ -1,0 +1,19 @@
+{
+  "name": "Heart2Heart",
+  "short_name": "Heart2Heart",
+  "description": "Conversa privada entre mãe e filho",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff7f8",
+  "theme_color": "#f43f5e",
+  "orientation": "portrait",
+  "lang": "pt",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
