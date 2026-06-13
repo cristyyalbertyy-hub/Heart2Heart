@@ -97,9 +97,8 @@ export default function LoginPage() {
         </form>
 
         <p className="mt-6 text-center text-xs leading-relaxed text-rose-700/70">
-          Only you two have access. When the conversation ends with{" "}
-          <strong className="font-semibold text-rose-800">Goodbye</strong>, all
-          messages are deleted.
+          Nurture healthy heart-to-heart connections, one message at a time.
+          The end is <strong className="font-semibold text-rose-800">Goodbye</strong>.
         </p>
       </div>
     </main>
