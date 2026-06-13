@@ -1,13 +1,13 @@
 {
   "name": "Heart2Heart",
   "short_name": "Heart2Heart",
-  "description": "Conversa privada entre mãe e filho",
+  "description": "Private chat for two",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fff7f8",
   "theme_color": "#f43f5e",
   "orientation": "portrait",
-  "lang": "pt",
+  "lang": "en",
   "icons": [
     {
       "src": "/icon.svg",

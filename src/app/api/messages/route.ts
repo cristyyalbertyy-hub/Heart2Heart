@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   const session = await getSession();
   if (!session) {
-    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
+    return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
   }
 
   const messages = await prisma.message.findMany({
@@ -24,7 +24,7 @@ export async function GET() {
 export async function POST(request: Request) {
   const session = await getSession();
   if (!session) {
-    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
+    return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
   }
 
   try {
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
 
     if (!trimmed) {
       return NextResponse.json(
-        { error: "A mensagem não pode estar vazia." },
+        { error: "Message cannot be empty." },
         { status: 400 }
       );
     }
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ message, goodbye: false });
   } catch {
     return NextResponse.json(
-      { error: "Erro ao enviar mensagem." },
+      { error: "Could not send message." },
       { status: 500 }
     );
   }

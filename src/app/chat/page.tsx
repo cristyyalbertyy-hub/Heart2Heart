@@ -91,7 +91,7 @@ export default function ChatPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setNotice(data.error ?? "Não foi possível enviar.");
+        setNotice(data.error ?? "Could not send message.");
         return;
       }
 
@@ -99,13 +99,13 @@ export default function ChatPage() {
 
       if (data.goodbye) {
         setMessages([]);
-        setNotice("Conversa terminada. Todas as mensagens foram apagadas.");
+        setNotice("Conversation ended. All messages have been deleted.");
         return;
       }
 
       setMessages((current) => [...current, data.message]);
     } catch {
-      setNotice("Erro de ligação. Tenta novamente.");
+      setNotice("Connection error. Please try again.");
     } finally {
       setSending(false);
     }
@@ -114,7 +114,7 @@ export default function ChatPage() {
   if (loading) {
     return (
       <main className="flex min-h-full flex-1 items-center justify-center">
-        <p className="text-rose-700">A carregar...</p>
+        <p className="text-rose-700">Loading...</p>
       </main>
     );
   }
@@ -126,14 +126,14 @@ export default function ChatPage() {
           <div>
             <h1 className="text-lg font-semibold text-rose-950">Heart2Heart</h1>
             <p className="text-sm text-rose-700/80">
-              Olá, {user?.displayName}
+              Hi, {user?.displayName}
             </p>
           </div>
           <button
             onClick={handleLogout}
             className="rounded-full border border-rose-200 px-4 py-2 text-sm text-rose-800 transition hover:bg-rose-50"
           >
-            Sair
+            Sign out
           </button>
         </div>
       </header>
@@ -141,10 +141,10 @@ export default function ChatPage() {
       <section className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
         {messages.length === 0 ? (
           <div className="rounded-3xl border border-dashed border-rose-200 bg-white/70 px-6 py-10 text-center text-sm text-rose-700/80">
-            Ainda não há mensagens. Escreve a primeira.
+            No messages yet. Send the first one.
             <br />
             <span className="mt-2 block text-xs">
-              Para terminar em privado, envia <strong>Adeus</strong>.
+              To end privately, send <strong>Goodbye</strong>.
             </span>
           </div>
         ) : (
@@ -175,7 +175,7 @@ export default function ChatPage() {
                       isMine ? "text-rose-100" : "text-rose-400"
                     }`}
                   >
-                    {new Date(message.createdAt).toLocaleTimeString("pt-PT", {
+                    {new Date(message.createdAt).toLocaleTimeString("en-US", {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
@@ -203,7 +203,7 @@ export default function ChatPage() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={1}
-            placeholder="Escreve uma mensagem..."
+            placeholder="Write a message..."
             className="max-h-32 min-h-[48px] flex-1 resize-none rounded-2xl border border-rose-100 bg-rose-50/50 px-4 py-3 text-sm text-rose-950 outline-none transition focus:border-rose-300 focus:ring-2 focus:ring-rose-200"
           />
           <button
@@ -211,11 +211,11 @@ export default function ChatPage() {
             disabled={sending || !content.trim()}
             className="rounded-2xl bg-rose-500 px-5 py-3 text-sm font-medium text-white transition hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Enviar
+            Send
           </button>
         </div>
         <p className="mt-2 text-center text-[11px] text-rose-600/70">
-          Envia <strong>Adeus</strong> para apagar toda a conversa
+          Send <strong>Goodbye</strong> to delete the entire conversation
         </p>
       </form>
     </main>

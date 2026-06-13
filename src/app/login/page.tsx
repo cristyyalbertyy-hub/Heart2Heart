@@ -25,14 +25,14 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error ?? "Não foi possível entrar.");
+        setError(data.error ?? "Could not sign in.");
         return;
       }
 
       router.push("/chat");
       router.refresh();
     } catch {
-      setError("Erro de ligação. Tenta novamente.");
+      setError("Connection error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -46,9 +46,6 @@ export default function LoginPage() {
             ♥
           </div>
           <h1 className="text-3xl font-semibold text-rose-950">Heart2Heart</h1>
-          <p className="mt-2 text-sm text-rose-700/80">
-            Conversa privada entre mãe e filho
-          </p>
         </div>
 
         <form
@@ -57,7 +54,7 @@ export default function LoginPage() {
         >
           <label className="mb-4 block">
             <span className="mb-2 block text-sm font-medium text-rose-900">
-              Utilizador
+              Username
             </span>
             <input
               type="text"
@@ -65,14 +62,13 @@ export default function LoginPage() {
               onChange={(e) => setUsername(e.target.value)}
               autoComplete="username"
               className="w-full rounded-2xl border border-rose-100 bg-rose-50/50 px-4 py-3 text-rose-950 outline-none transition focus:border-rose-300 focus:ring-2 focus:ring-rose-200"
-              placeholder="mae ou filho"
               required
             />
           </label>
 
           <label className="mb-6 block">
             <span className="mb-2 block text-sm font-medium text-rose-900">
-              Palavra-passe
+              Password
             </span>
             <input
               type="password"
@@ -96,14 +92,14 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full rounded-2xl bg-rose-500 px-4 py-3 font-medium text-white transition hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {loading ? "A entrar..." : "Entrar"}
+            {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
 
         <p className="mt-6 text-center text-xs leading-relaxed text-rose-700/70">
-          Só vocês dois têm acesso. Quando a conversa terminar com{" "}
-          <strong className="font-semibold text-rose-800">Adeus</strong>, todas
-          as mensagens são apagadas.
+          Only you two have access. When the conversation ends with{" "}
+          <strong className="font-semibold text-rose-800">Goodbye</strong>, all
+          messages are deleted.
         </p>
       </div>
     </main>

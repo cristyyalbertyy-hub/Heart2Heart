@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     if (!username || !password) {
       return NextResponse.json(
-        { error: "Utilizador e palavra-passe são obrigatórios." },
+        { error: "Username and password are required." },
         { status: 400 }
       );
     }
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return NextResponse.json(
-        { error: "Credenciais inválidas." },
+        { error: "Invalid credentials." },
         { status: 401 }
       );
     }
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     });
   } catch {
     return NextResponse.json(
-      { error: "Erro ao iniciar sessão." },
+      { error: "Could not sign in." },
       { status: 500 }
     );
   }
