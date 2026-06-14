@@ -95,11 +95,6 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
-
-        <p className="mt-6 text-center text-xs leading-relaxed text-rose-700/70">
-          Nurture healthy heart-to-heart connections, one message at a time.
-          The end is <strong className="font-semibold text-rose-800">Goodbye</strong>.
-        </p>
       </div>
     </main>
   );

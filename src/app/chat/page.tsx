@@ -20,6 +20,12 @@ type Message = {
   };
 };
 
+function isTypingTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) return false;
+  const tag = target.tagName;
+  return tag === "INPUT" || tag === "TEXTAREA" || target.isContentEditable;
+}
+
 export default function ChatPage() {
   const router = useRouter();
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -29,6 +35,7 @@ export default function ChatPage() {
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [notice, setNotice] = useState("");
+  const [chatVisible, setChatVisible] = useState(false);
 
   useEffect(() => {
     async function bootstrap() {
@@ -56,8 +63,29 @@ export default function ChatPage() {
   }, []);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (chatVisible) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, chatVisible]);
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (isTypingTarget(event.target)) return;
+
+      const key = event.key.toLowerCase();
+      if (key === "g") {
+        setChatVisible(true);
+        setNotice("");
+      }
+      if (key === "o") {
+        setChatVisible(false);
+        setNotice("");
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   async function fetchMessages() {
     const response = await fetch("/api/messages");
@@ -99,7 +127,7 @@ export default function ChatPage() {
 
       if (data.goodbye) {
         setMessages([]);
-        setNotice("Conversation ended. All messages have been deleted.");
+        setChatVisible(false);
         return;
       }
 
@@ -119,15 +147,29 @@ export default function ChatPage() {
     );
   }
 
+  if (!chatVisible) {
+    return (
+      <main className="flex min-h-full flex-1 flex-col items-center justify-center px-6 py-10">
+        <div className="text-center">
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-rose-100 text-4xl">
+            ♥
+          </div>
+          <h1 className="text-2xl font-semibold text-rose-950">Heart2Heart</h1>
+          <p className="mt-3 max-w-xs text-sm leading-relaxed text-rose-700/70">
+            Nurture healthy heart-to-heart connections, one message at a time.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="mx-auto flex min-h-full w-full max-w-2xl flex-1 flex-col">
       <header className="sticky top-0 z-10 border-b border-rose-100 bg-white/90 px-4 py-4 backdrop-blur">
         <div className="flex items-center justify-between gap-3">
           <div>
             <h1 className="text-lg font-semibold text-rose-950">Heart2Heart</h1>
-            <p className="text-sm text-rose-700/80">
-              Hi, {user?.displayName}
-            </p>
+            <p className="text-sm text-rose-700/80">Hi, {user?.displayName}</p>
           </div>
           <button
             onClick={handleLogout}
@@ -139,52 +181,42 @@ export default function ChatPage() {
       </header>
 
       <section className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
-        {messages.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-rose-200 bg-white/70 px-6 py-10 text-center text-sm text-rose-700/80">
-            No messages yet. Send the first one.
-            <br />
-            <span className="mt-2 block text-xs">
-              To end privately, send <strong>Goodbye</strong>.
-            </span>
-          </div>
-        ) : (
-          messages.map((message) => {
-            const isMine = message.sender.id === user?.userId;
-            return (
+        {messages.map((message) => {
+          const isMine = message.sender.id === user?.userId;
+          return (
+            <div
+              key={message.id}
+              className={`flex ${isMine ? "justify-end" : "justify-start"}`}
+            >
               <div
-                key={message.id}
-                className={`flex ${isMine ? "justify-end" : "justify-start"}`}
+                className={`max-w-[85%] rounded-3xl px-4 py-3 text-sm shadow-sm ${
+                  isMine
+                    ? "rounded-br-md bg-rose-500 text-white"
+                    : "rounded-bl-md border border-rose-100 bg-white text-rose-950"
+                }`}
               >
-                <div
-                  className={`max-w-[85%] rounded-3xl px-4 py-3 text-sm shadow-sm ${
-                    isMine
-                      ? "rounded-br-md bg-rose-500 text-white"
-                      : "rounded-bl-md border border-rose-100 bg-white text-rose-950"
+                {!isMine && (
+                  <p className="mb-1 text-xs font-medium text-rose-500">
+                    {message.sender.displayName}
+                  </p>
+                )}
+                <p className="whitespace-pre-wrap break-words">
+                  {message.content}
+                </p>
+                <p
+                  className={`mt-2 text-[10px] ${
+                    isMine ? "text-rose-100" : "text-rose-400"
                   }`}
                 >
-                  {!isMine && (
-                    <p className="mb-1 text-xs font-medium text-rose-500">
-                      {message.sender.displayName}
-                    </p>
-                  )}
-                  <p className="whitespace-pre-wrap break-words">
-                    {message.content}
-                  </p>
-                  <p
-                    className={`mt-2 text-[10px] ${
-                      isMine ? "text-rose-100" : "text-rose-400"
-                    }`}
-                  >
-                    {new Date(message.createdAt).toLocaleTimeString("en-US", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                </div>
+                  {new Date(message.createdAt).toLocaleTimeString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
               </div>
-            );
-          })
-        )}
+            </div>
+          );
+        })}
         <div ref={bottomRef} />
       </section>
 
@@ -214,9 +246,6 @@ export default function ChatPage() {
             Send
           </button>
         </div>
-        <p className="mt-2 text-center text-[11px] text-rose-600/70">
-          Send <strong>Goodbye</strong> to delete the entire conversation
-        </p>
       </form>
     </main>
   );
