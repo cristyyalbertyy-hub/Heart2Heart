@@ -9,7 +9,7 @@ const nunito = Nunito({
 
 export const metadata: Metadata = {
   title: "Heart2Heart",
-  description: "Private chat. Send Goodbye and everything is deleted.",
+  description: "Heart wellness and connection",
   applicationName: "Heart2Heart",
   manifest: "/manifest.json",
   appleWebApp: {

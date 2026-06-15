@@ -1,8 +1,9 @@
 {
+  "id": "/?v=3",
   "name": "Heart2Heart",
   "short_name": "Heart2Heart",
-  "description": "Private chat for two",
-  "start_url": "/",
+  "description": "Heart wellness",
+  "start_url": "/?v=3",
   "display": "standalone",
   "background_color": "#fff7f8",
   "theme_color": "#f43f5e",
@@ -10,7 +11,7 @@
   "lang": "en",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "/icon.svg?v=3",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
