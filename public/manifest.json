@@ -1,9 +1,9 @@
 {
-  "id": "/?v=3",
+  "id": "/?v=4",
   "name": "Heart2Heart",
   "short_name": "Heart2Heart",
   "description": "Heart wellness",
-  "start_url": "/?v=3",
+  "start_url": "/?v=4",
   "display": "standalone",
   "background_color": "#fff7f8",
   "theme_color": "#f43f5e",
@@ -11,7 +11,7 @@
   "lang": "en",
   "icons": [
     {
-      "src": "/icon.svg?v=3",
+      "src": "/icon.svg?v=4",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

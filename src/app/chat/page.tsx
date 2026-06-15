@@ -26,6 +26,20 @@ function isTypingTarget(target: EventTarget | null) {
   return tag === "INPUT" || tag === "TEXTAREA" || target.isContentEditable;
 }
 
+function useDoubleTap(action: () => void, delay = 400) {
+  const lastTap = useRef(0);
+
+  return () => {
+    const now = Date.now();
+    if (now - lastTap.current < delay) {
+      action();
+      lastTap.current = 0;
+    } else {
+      lastTap.current = now;
+    }
+  };
+}
+
 export default function ChatPage() {
   const router = useRouter();
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -36,6 +50,16 @@ export default function ChatPage() {
   const [sending, setSending] = useState(false);
   const [notice, setNotice] = useState("");
   const [chatVisible, setChatVisible] = useState(false);
+
+  const openChat = useDoubleTap(() => {
+    setChatVisible(true);
+    setNotice("");
+  });
+
+  const closeChat = useDoubleTap(() => {
+    setChatVisible(false);
+    setNotice("");
+  });
 
   useEffect(() => {
     async function bootstrap() {
@@ -151,9 +175,14 @@ export default function ChatPage() {
     return (
       <main className="flex min-h-full flex-1 flex-col items-center justify-center px-6 py-10">
         <div className="text-center">
-          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-rose-100 text-4xl">
+          <button
+            type="button"
+            onClick={openChat}
+            aria-label="Heart2Heart"
+            className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-rose-100 text-4xl select-none touch-manipulation"
+          >
             ♥
-          </div>
+          </button>
           <h1 className="text-2xl font-semibold text-rose-950">Heart2Heart</h1>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-rose-700/70">
             Nurture healthy heart-to-heart connections, one message at a time.
@@ -167,10 +196,15 @@ export default function ChatPage() {
     <main className="mx-auto flex min-h-full w-full max-w-2xl flex-1 flex-col">
       <header className="sticky top-0 z-10 border-b border-rose-100 bg-white/90 px-4 py-4 backdrop-blur">
         <div className="flex items-center justify-between gap-3">
-          <div>
+          <button
+            type="button"
+            onClick={closeChat}
+            className="text-left touch-manipulation select-none"
+            aria-label="Heart2Heart"
+          >
             <h1 className="text-lg font-semibold text-rose-950">Heart2Heart</h1>
             <p className="text-sm text-rose-700/80">Hi, {user?.displayName}</p>
-          </div>
+          </button>
           <button
             onClick={handleLogout}
             className="rounded-full border border-rose-200 px-4 py-2 text-sm text-rose-800 transition hover:bg-rose-50"
