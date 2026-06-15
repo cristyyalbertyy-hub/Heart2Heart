@@ -185,7 +185,7 @@ export default function ChatPage() {
           </button>
           <h1 className="text-2xl font-semibold text-rose-950">Heart2Heart</h1>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-rose-700/70">
-            Nurture healthy heart-to-heart connections, one message at a time.
+            Nurture healthy heart
           </p>
         </div>
       </main>
