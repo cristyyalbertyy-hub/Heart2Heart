@@ -76,7 +76,7 @@ export function LoungeRoom({
               style={{
                 left,
                 // Sit on the white sofa cushions in the photo
-                top: "42%",
+                top: "48%",
               }}
             >
               {bubble && (
