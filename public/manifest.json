@@ -1,17 +1,17 @@
 {
-  "id": "/?v=5",
-  "name": "talk-to-2",
-  "short_name": "talk-to-2",
-  "description": "Uma conversa privada, só a dois.",
-  "start_url": "/?v=5",
+  "id": "/?v=7",
+  "name": "talk-for-two",
+  "short_name": "talk-for-two",
+  "description": "A private conversation, just for two.",
+  "start_url": "/?v=7",
   "display": "standalone",
   "background_color": "#fff7f8",
   "theme_color": "#f43f5e",
   "orientation": "portrait",
-  "lang": "pt",
+  "lang": "en",
   "icons": [
     {
-      "src": "/icon.svg?v=5",
+      "src": "/icon.svg?v=7",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

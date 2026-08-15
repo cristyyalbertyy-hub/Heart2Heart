@@ -1,4 +1,4 @@
-# Publicar talk-to-2 — GitHub + Vercel + Neon
+# Publicar talk-for-two — GitHub + Vercel + Neon
 
 Guia para publicar a app usando o teu GitHub (como as tuas outras apps).
 

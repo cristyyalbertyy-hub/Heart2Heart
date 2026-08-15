@@ -1,12 +1,12 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-const COOKIE_NAME = "talkto2_session";
+const COOKIE_NAME = "talkfortwo_session";
 
 function getSecret() {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
-    throw new Error("JWT_SECRET não está definido no .env");
+    throw new Error("JWT_SECRET is not set in .env");
   }
   return new TextEncoder().encode(secret);
 }

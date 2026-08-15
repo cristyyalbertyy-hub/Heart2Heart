@@ -84,14 +84,14 @@ export default function ChatPage() {
 
   async function copyInvite() {
     const shareUrl = `${window.location.origin}/r/${roomCode}`;
-    const text = `Entra na conversa talk-to-2 com o código ${roomCode}: ${shareUrl}`;
+    const text = `Join this talk-for-two chat with code ${roomCode}: ${shareUrl}`;
 
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      setNotice("Não foi possível copiar. Partilha o código à mão: " + roomCode);
+      setNotice("Could not copy. Share this code instead: " + roomCode);
     }
   }
 
@@ -113,7 +113,7 @@ export default function ChatPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setNotice(data.error ?? "Não foi possível enviar a mensagem.");
+        setNotice(data.error ?? "Could not send message.");
         return;
       }
 
@@ -121,13 +121,13 @@ export default function ChatPage() {
 
       if (data.goodbye) {
         setMessages([]);
-        setNotice("A conversa foi apagada.");
+        setNotice("The chat was cleared.");
         return;
       }
 
       setMessages((current) => [...current, data.message]);
     } catch {
-      setNotice("Erro de ligação. Tenta outra vez.");
+      setNotice("Connection error. Please try again.");
     } finally {
       setSending(false);
     }
@@ -136,7 +136,7 @@ export default function ChatPage() {
   if (loading) {
     return (
       <main className="flex min-h-full flex-1 items-center justify-center">
-        <p className="text-rose-700">A carregar...</p>
+        <p className="text-rose-700">Loading...</p>
       </main>
     );
   }
@@ -146,18 +146,18 @@ export default function ChatPage() {
       <header className="sticky top-0 z-10 border-b border-rose-100 bg-white/90 px-4 py-4 backdrop-blur">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <h1 className="text-lg font-semibold text-rose-950">talk-to-2</h1>
+            <h1 className="text-lg font-semibold text-rose-950">talk-for-two</h1>
             <p className="text-sm text-rose-700/80">
               {partner
-                ? `Com ${partner.displayName}`
-                : `Olá, ${member?.displayName}`}
+                ? `With ${partner.displayName}`
+                : `Hi, ${member?.displayName}`}
             </p>
           </div>
           <button
             onClick={handleLogout}
             className="rounded-full border border-rose-200 px-4 py-2 text-sm text-rose-800 transition hover:bg-rose-50"
           >
-            Sair
+            Sign out
           </button>
         </div>
       </header>
@@ -165,7 +165,7 @@ export default function ChatPage() {
       {waitingForPartner && (
         <div className="mx-4 mt-4 rounded-3xl border border-rose-100 bg-white/80 px-5 py-4 text-center shadow-sm">
           <p className="text-sm text-rose-800">
-            À espera da outra pessoa. Partilha este código:
+            Waiting for the other person. Share this code:
           </p>
           <p className="mt-2 text-2xl font-semibold tracking-[0.35em] text-rose-950">
             {roomCode}
@@ -175,7 +175,7 @@ export default function ChatPage() {
             onClick={copyInvite}
             className="mt-3 rounded-full bg-rose-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-rose-600"
           >
-            {copied ? "Copiado" : "Copiar convite"}
+            {copied ? "Copied" : "Copy invite"}
           </button>
         </div>
       )}
@@ -208,7 +208,7 @@ export default function ChatPage() {
                     isMine ? "text-rose-100" : "text-rose-400"
                   }`}
                 >
-                  {new Date(message.createdAt).toLocaleTimeString("pt-PT", {
+                  {new Date(message.createdAt).toLocaleTimeString("en-US", {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}
@@ -235,7 +235,7 @@ export default function ChatPage() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={1}
-            placeholder="Escreve uma mensagem..."
+            placeholder="Write a message..."
             className="max-h-32 min-h-[48px] flex-1 resize-none rounded-2xl border border-rose-100 bg-rose-50/50 px-4 py-3 text-sm text-rose-950 outline-none transition focus:border-rose-300 focus:ring-2 focus:ring-rose-200"
           />
           <button
@@ -243,7 +243,7 @@ export default function ChatPage() {
             disabled={sending || !content.trim()}
             className="rounded-2xl bg-rose-500 px-5 py-3 text-sm font-medium text-white transition hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Enviar
+            Send
           </button>
         </div>
       </form>

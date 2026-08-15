@@ -40,14 +40,14 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error ?? "Não foi possível continuar.");
+        setError(data.error ?? "Could not continue.");
         return;
       }
 
       router.push("/chat");
       router.refresh();
     } catch {
-      setError("Erro de ligação. Tenta outra vez.");
+      setError("Connection error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -60,9 +60,9 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-rose-100 text-3xl font-semibold text-rose-500">
             2
           </div>
-          <h1 className="text-3xl font-semibold text-rose-950">talk-to-2</h1>
+          <h1 className="text-3xl font-semibold text-rose-950">talk-for-two</h1>
           <p className="mt-2 text-sm text-rose-700/80">
-            Uma conversa privada, só a dois.
+            A private conversation, just for two.
           </p>
         </div>
 
@@ -79,7 +79,7 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
                 : "text-rose-800 hover:text-rose-950"
             }`}
           >
-            Criar conversa
+            Start a chat
           </button>
           <button
             type="button"
@@ -93,7 +93,7 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
                 : "text-rose-800 hover:text-rose-950"
             }`}
           >
-            Entrar
+            Join
           </button>
         </div>
 
@@ -104,7 +104,7 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
           {mode === "join" && (
             <label className="mb-4 block">
               <span className="mb-2 block text-sm font-medium text-rose-900">
-                Código da conversa
+                Chat code
               </span>
               <input
                 type="text"
@@ -122,7 +122,7 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
 
           <label className="mb-4 block">
             <span className="mb-2 block text-sm font-medium text-rose-900">
-              O teu nome
+              Your name
             </span>
             <input
               type="text"
@@ -137,7 +137,7 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
 
           <label className="mb-6 block">
             <span className="mb-2 block text-sm font-medium text-rose-900">
-              PIN de 4 dígitos
+              4-digit PIN
             </span>
             <input
               type="password"
@@ -151,7 +151,7 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
               required
             />
             <span className="mt-2 block text-xs text-rose-700/70">
-              Serve para voltares a esta conversa noutro telemóvel ou browser.
+              Use this to come back to the chat on another phone or browser.
             </span>
           </label>
 
@@ -167,10 +167,10 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
             className="w-full rounded-2xl bg-rose-500 px-4 py-3 font-medium text-white transition hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading
-              ? "A entrar..."
+              ? "Please wait..."
               : mode === "create"
-                ? "Começar"
-                : "Entrar na conversa"}
+                ? "Start"
+                : "Join chat"}
           </button>
         </form>
       </div>

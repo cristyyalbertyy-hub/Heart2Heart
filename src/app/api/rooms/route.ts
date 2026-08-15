@@ -18,14 +18,14 @@ export async function POST(request: Request) {
 
     if (!isValidDisplayName(name)) {
       return NextResponse.json(
-        { error: "O nome deve ter entre 2 e 24 caracteres." },
+        { error: "Name must be between 2 and 24 characters." },
         { status: 400 }
       );
     }
 
     if (!isValidPin(pinValue)) {
       return NextResponse.json(
-        { error: "Escolhe um PIN de 4 dígitos." },
+        { error: "Choose a 4-digit PIN." },
         { status: 400 }
       );
     }
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
 
     if (!room) {
       return NextResponse.json(
-        { error: "Não foi possível criar a conversa. Tenta outra vez." },
+        { error: "Could not create the chat. Please try again." },
         { status: 500 }
       );
     }
@@ -77,7 +77,7 @@ export async function POST(request: Request) {
     });
   } catch {
     return NextResponse.json(
-      { error: "Não foi possível criar a conversa." },
+      { error: "Could not create the chat." },
       { status: 500 }
     );
   }

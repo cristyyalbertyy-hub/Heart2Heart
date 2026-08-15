@@ -21,21 +21,21 @@ export async function POST(request: Request) {
 
     if (!isValidRoomCode(roomCode)) {
       return NextResponse.json(
-        { error: "Esse código não é válido." },
+        { error: "That code is not valid." },
         { status: 400 }
       );
     }
 
     if (!isValidDisplayName(name)) {
       return NextResponse.json(
-        { error: "O nome deve ter entre 2 e 24 caracteres." },
+        { error: "Name must be between 2 and 24 characters." },
         { status: 400 }
       );
     }
 
     if (!isValidPin(pinValue)) {
       return NextResponse.json(
-        { error: "Introduz o PIN de 4 dígitos." },
+        { error: "Enter your 4-digit PIN." },
         { status: 400 }
       );
     }
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
     if (!room) {
       return NextResponse.json(
-        { error: "Não encontrámos essa conversa." },
+        { error: "We could not find that chat." },
         { status: 404 }
       );
     }
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
       const pinOk = await bcrypt.compare(pinValue, existing.pinHash);
       if (!pinOk) {
         return NextResponse.json(
-          { error: "PIN incorreto." },
+          { error: "Incorrect PIN." },
           { status: 401 }
         );
       }
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
 
     if (room.members.length >= MAX_MEMBERS) {
       return NextResponse.json(
-        { error: "Esta conversa já está completa." },
+        { error: "This chat is already full." },
         { status: 403 }
       );
     }
@@ -106,7 +106,7 @@ export async function POST(request: Request) {
     });
   } catch {
     return NextResponse.json(
-      { error: "Não foi possível entrar na conversa." },
+      { error: "Could not join the chat." },
       { status: 500 }
     );
   }

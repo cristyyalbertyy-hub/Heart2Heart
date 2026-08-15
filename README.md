@@ -1,4 +1,4 @@
-# talk-to-2
+# talk-for-two
 
 Conversa privada entre duas pessoas. Uma cria a sala, a outra entra com um código.
 
