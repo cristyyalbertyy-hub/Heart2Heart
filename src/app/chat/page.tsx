@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { DialoguePanel } from "@/components/dialogue-panel";
 import { LoungeRoom } from "@/components/lounge-room";
 import { MAX_MEMBERS } from "@/lib/rooms";
 
@@ -22,6 +23,8 @@ type Message = {
   };
 };
 
+type MobileView = "room" | "text";
+
 export default function ChatPage() {
   const router = useRouter();
   const [member, setMember] = useState<Member | null>(null);
@@ -34,6 +37,7 @@ export default function ChatPage() {
   const [sending, setSending] = useState(false);
   const [notice, setNotice] = useState("");
   const [copied, setCopied] = useState(false);
+  const [mobileView, setMobileView] = useState<MobileView>("room");
 
   const others = members.filter((item) => item.id !== member?.id);
   const canInvite = members.length < MAX_MEMBERS;
@@ -164,7 +168,7 @@ export default function ChatPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-full w-full max-w-2xl flex-1 flex-col bg-gradient-to-b from-[#2c241c] via-[#4a3b2f] to-[#1a1410]">
+    <main className="mx-auto flex min-h-full w-full max-w-6xl flex-1 flex-col bg-gradient-to-b from-[#2c241c] via-[#4a3b2f] to-[#1a1410]">
       <header className="sticky top-0 z-20 border-b border-amber-200/15 bg-[#1a1410]/80 px-4 py-3 backdrop-blur">
         <div className="flex items-center justify-between gap-3">
           <div>
@@ -182,9 +186,35 @@ export default function ChatPage() {
             Leave
           </button>
         </div>
+
+        {/* Mobile: choose room or text-only dialogue */}
+        <div className="mt-3 grid grid-cols-2 gap-2 md:hidden">
+          <button
+            type="button"
+            onClick={() => setMobileView("room")}
+            className={`rounded-full px-3 py-2 text-sm font-medium transition ${
+              mobileView === "room"
+                ? "bg-amber-500 text-stone-900"
+                : "border border-amber-200/25 text-amber-50"
+            }`}
+          >
+            Quarto
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileView("text")}
+            className={`rounded-full px-3 py-2 text-sm font-medium transition ${
+              mobileView === "text"
+                ? "bg-amber-500 text-stone-900"
+                : "border border-amber-200/25 text-amber-50"
+            }`}
+          >
+            Texto
+          </button>
+        </div>
       </header>
 
-      <div className="space-y-4 px-3 py-4 sm:px-4">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 px-3 py-4 sm:px-4">
         {canInvite && (
           <div className="rounded-3xl border border-amber-200/30 bg-black/25 px-5 py-4 text-center text-amber-50 backdrop-blur">
             <p className="text-sm text-amber-100/80">
@@ -205,12 +235,28 @@ export default function ChatPage() {
           </div>
         )}
 
-        <LoungeRoom
-          members={members}
-          bubbles={bubbles}
-          currentMemberId={member?.id}
-          sceneId={sceneId}
-        />
+        <div className="grid min-h-0 flex-1 gap-4 md:grid-cols-[minmax(0,1.4fr)_minmax(220px,0.8fr)]">
+          <div
+            className={
+              mobileView === "room" ? "block" : "hidden md:block"
+            }
+          >
+            <LoungeRoom
+              members={members}
+              bubbles={bubbles}
+              currentMemberId={member?.id}
+              sceneId={sceneId}
+            />
+          </div>
+
+          <DialoguePanel
+            messages={messages}
+            currentMemberId={member?.id}
+            className={`min-h-[280px] md:min-h-[420px] ${
+              mobileView === "text" ? "flex" : "hidden md:flex"
+            }`}
+          />
+        </div>
       </div>
 
       {notice && (
