@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { MAX_MEMBERS } from "@/lib/rooms";
 
 type Member = {
   id: string;
@@ -31,8 +32,17 @@ export default function ChatPage() {
   const [notice, setNotice] = useState("");
   const [copied, setCopied] = useState(false);
 
-  const partner = members.find((item) => item.id !== member?.id);
-  const waitingForPartner = members.length < 2;
+  const others = members.filter((item) => item.id !== member?.id);
+  const canInvite = members.length < MAX_MEMBERS;
+
+  function roomSubtitle() {
+    if (others.length === 0) return `Hi, ${member?.displayName}`;
+    if (others.length === 1) return `With ${others[0].displayName}`;
+    if (others.length === 2) {
+      return `With ${others[0].displayName} and ${others[1].displayName}`;
+    }
+    return `${members.length} people in this room`;
+  }
 
   const fetchMessages = useCallback(async () => {
     const response = await fetch("/api/messages");
@@ -84,7 +94,7 @@ export default function ChatPage() {
 
   async function copyInvite() {
     const shareUrl = `${window.location.origin}/r/${roomCode}`;
-    const text = `Join this talk-for-two chat with code ${roomCode}: ${shareUrl}`;
+    const text = `Join this same-room chat with code ${roomCode}: ${shareUrl}`;
 
     try {
       await navigator.clipboard.writeText(text);
@@ -146,12 +156,8 @@ export default function ChatPage() {
       <header className="sticky top-0 z-10 border-b border-rose-100 bg-white/90 px-4 py-4 backdrop-blur">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <h1 className="text-lg font-semibold text-rose-950">talk-for-two</h1>
-            <p className="text-sm text-rose-700/80">
-              {partner
-                ? `With ${partner.displayName}`
-                : `Hi, ${member?.displayName}`}
-            </p>
+            <h1 className="text-lg font-semibold text-rose-950">same-room</h1>
+            <p className="text-sm text-rose-700/80">{roomSubtitle()}</p>
           </div>
           <button
             onClick={handleLogout}
@@ -162,10 +168,12 @@ export default function ChatPage() {
         </div>
       </header>
 
-      {waitingForPartner && (
+      {canInvite && (
         <div className="mx-4 mt-4 rounded-3xl border border-rose-100 bg-white/80 px-5 py-4 text-center shadow-sm">
           <p className="text-sm text-rose-800">
-            Waiting for the other person. Share this code:
+            {others.length === 0
+              ? "Waiting for others. Share this code:"
+              : "Invite more people with this code:"}
           </p>
           <p className="mt-2 text-2xl font-semibold tracking-[0.35em] text-rose-950">
             {roomCode}

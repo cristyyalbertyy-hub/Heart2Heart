@@ -1,12 +1,12 @@
-# talk-for-two
+# same-room
 
-Conversa privada entre duas pessoas. Uma cria a sala, a outra entra com um código.
+Conversa privada numa sala. Uma pessoa cria a sala e partilha o código.
 
 ## O que faz
 
 - **Criar conversa** — escolhes um nome e um PIN de 4 dígitos, e recebes um código
-- **Entrar** — a outra pessoa usa o código (ou o link `/r/CODIGO`) e o próprio PIN
-- **Só a dois** — cada sala aceita no máximo duas pessoas
+- **Entrar** — os outros usam o código (ou o link `/r/CODIGO`) e o próprio PIN
+- **Sala de reunião** — até 12 pessoas na mesma conversa
 - **Instalável no telemóvel** — funciona como app (PWA) no Android e iPhone
 - **Apagar tudo** — se alguém enviar exatamente `Adeus` ou `goodbye`, as mensagens dessa conversa desaparecem
 

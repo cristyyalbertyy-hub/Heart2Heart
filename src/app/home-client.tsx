@@ -57,12 +57,15 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
     <main className="flex min-h-full flex-1 items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-rose-100 text-3xl font-semibold text-rose-500">
-            2
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-rose-100">
+            <span className="flex -space-x-2">
+              <span className="h-6 w-6 rounded-full bg-rose-300" />
+              <span className="h-6 w-6 rounded-full bg-rose-500" />
+            </span>
           </div>
-          <h1 className="text-3xl font-semibold text-rose-950">talk-for-two</h1>
+          <h1 className="text-3xl font-semibold text-rose-950">same-room</h1>
           <p className="mt-2 text-sm text-rose-700/80">
-            A private conversation, just for two.
+            A private room. Share the code to invite people.
           </p>
         </div>
 

@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="talk-for-two">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="same-room">
   <rect width="512" height="512" rx="112" fill="#fff1f2"/>
-  <path d="M96 168c0-40 32-72 72-72h88c40 0 72 32 72 72v56c0 40-32 72-72 72h-20l-44 36v-36h-24c-40 0-72-32-72-72v-56z" fill="#fda4af"/>
-  <path d="M184 216c0-40 32-72 72-72h88c40 0 72 32 72 72v56c0 40-32 72-72 72h-20l-44 36v-36h-24c-40 0-72-32-72-72v-56z" fill="#f43f5e"/>
+  <circle cx="210" cy="256" r="92" fill="#fda4af"/>
+  <circle cx="302" cy="256" r="92" fill="#f43f5e"/>
 </svg>

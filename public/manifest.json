@@ -1,9 +1,9 @@
 {
-  "id": "/?v=7",
-  "name": "talk-for-two",
-  "short_name": "talk-for-two",
-  "description": "A private conversation, just for two.",
-  "start_url": "/?v=7",
+  "id": "/?v=9",
+  "name": "same-room",
+  "short_name": "same-room",
+  "description": "A private room. Share the code to invite people.",
+  "start_url": "/?v=9",
   "display": "standalone",
   "background_color": "#fff7f8",
   "theme_color": "#f43f5e",
@@ -11,7 +11,7 @@
   "lang": "en",
   "icons": [
     {
-      "src": "/icon.svg?v=7",
+      "src": "/icon.svg?v=9",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

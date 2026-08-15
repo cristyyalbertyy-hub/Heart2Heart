@@ -1,7 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-const COOKIE_NAME = "talkfortwo_session";
+const COOKIE_NAME = "sameroom_session";
 
 function getSecret() {
   const secret = process.env.JWT_SECRET;

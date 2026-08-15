@@ -1,7 +1,7 @@
 const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 export const ROOM_CODE_LENGTH = 6;
-export const MAX_MEMBERS = 2;
+export const MAX_MEMBERS = 12;
 
 export function generateRoomCode(length = ROOM_CODE_LENGTH) {
   const bytes = crypto.getRandomValues(new Uint8Array(length));

@@ -8,14 +8,14 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "talk-for-two",
-  description: "A private conversation, just for two.",
-  applicationName: "talk-for-two",
+  title: "same-room",
+  description: "A private room. Share the code to invite people.",
+  applicationName: "same-room",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "talk-for-two",
+    title: "same-room",
   },
   icons: {
     icon: "/icon.svg",

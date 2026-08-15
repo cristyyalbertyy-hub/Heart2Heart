@@ -79,7 +79,7 @@ export async function POST(request: Request) {
 
     if (room.members.length >= MAX_MEMBERS) {
       return NextResponse.json(
-        { error: "This chat is already full." },
+        { error: "This room is full." },
         { status: 403 }
       );
     }
