@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { sceneIdFromRoomCode } from "@/lib/room-scenes";
 
 export async function GET() {
   const session = await getSession();
@@ -33,6 +34,7 @@ export async function GET() {
     room: {
       id: room.id,
       code: room.code,
+      sceneId: sceneIdFromRoomCode(room.code),
       members: room.members,
     },
   });

@@ -11,6 +11,7 @@ import {
   nameKeyFromDisplayName,
   normalizeDisplayName,
 } from "@/lib/rooms";
+import { sceneIdFromRoomCode } from "@/lib/room-scenes";
 
 export async function POST(request: Request) {
   try {
@@ -80,7 +81,11 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({
-      room: { id: room.id, code: room.code },
+      room: {
+        id: room.id,
+        code: room.code,
+        sceneId: sceneIdFromRoomCode(room.code),
+      },
       member: {
         id: member.id,
         displayName: member.displayName,

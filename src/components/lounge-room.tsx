@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { LegoAvatar } from "@/components/lego-avatar";
+import { getRoomScene } from "@/lib/room-scenes";
 
 export type RoomSeatMember = {
   id: string;
@@ -19,6 +20,7 @@ type LoungeRoomProps = {
   members: RoomSeatMember[];
   bubbles: RoomBubble[];
   currentMemberId?: string;
+  sceneId?: string;
 };
 
 /** Horizontal seats along the white sofa in the photo (roughly 30%–70%). */
@@ -42,7 +44,9 @@ export function LoungeRoom({
   members,
   bubbles,
   currentMemberId,
+  sceneId,
 }: LoungeRoomProps) {
+  const scene = getRoomScene(sceneId);
   const positions = seatPositions(Math.max(members.length, 1));
   const bubbleByMember = new Map(
     bubbles.map((bubble) => [bubble.memberId, bubble])
@@ -52,8 +56,8 @@ export function LoungeRoom({
     <div className="relative mx-auto w-full max-w-2xl overflow-hidden rounded-[2rem] border border-amber-200/40 shadow-2xl shadow-stone-900/30">
       <div className="relative aspect-[4/3] min-h-[320px] w-full sm:min-h-[420px]">
         <Image
-          src="/lounge-room.png"
-          alt="Arabian lounge"
+          src={scene.src}
+          alt={scene.label}
           fill
           priority
           className="object-cover object-center"

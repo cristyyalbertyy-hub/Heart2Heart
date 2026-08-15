@@ -27,6 +27,7 @@ export default function ChatPage() {
   const [member, setMember] = useState<Member | null>(null);
   const [members, setMembers] = useState<Member[]>([]);
   const [roomCode, setRoomCode] = useState("");
+  const [sceneId, setSceneId] = useState("sala-01");
   const [messages, setMessages] = useState<Message[]>([]);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
@@ -81,6 +82,7 @@ export default function ChatPage() {
       setMember(meData.member);
       setMembers(meData.room.members);
       setRoomCode(meData.room.code);
+      setSceneId(meData.room.sceneId ?? "sala-01");
       await fetchMessages();
       setLoading(false);
     }
@@ -207,6 +209,7 @@ export default function ChatPage() {
           members={members}
           bubbles={bubbles}
           currentMemberId={member?.id}
+          sceneId={sceneId}
         />
       </div>
 
