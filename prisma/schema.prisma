@@ -7,19 +7,36 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
+model Room {
+  id        String       @id @default(cuid())
+  code      String       @unique
+  createdAt DateTime     @default(now())
+  members   RoomMember[]
+  messages  Message[]
+}
+
+model RoomMember {
   id          String    @id @default(cuid())
-  username    String    @unique
-  password    String
+  roomId      String
+  room        Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
   displayName String
+  nameKey     String
+  pinHash     String
   createdAt   DateTime  @default(now())
   messages    Message[]
+
+  @@unique([roomId, nameKey])
+  @@index([roomId])
 }
 
 model Message {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   content   String
+  roomId    String
+  room      Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
   senderId  String
-  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
+  sender    RoomMember @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+
+  @@index([roomId, createdAt])
 }

@@ -1,17 +1,17 @@
 {
-  "id": "/?v=4",
-  "name": "Heart2Heart",
-  "short_name": "Heart2Heart",
-  "description": "Heart wellness",
-  "start_url": "/?v=4",
+  "id": "/?v=5",
+  "name": "talk-to-2",
+  "short_name": "talk-to-2",
+  "description": "Uma conversa privada, só a dois.",
+  "start_url": "/?v=5",
   "display": "standalone",
   "background_color": "#fff7f8",
   "theme_color": "#f43f5e",
   "orientation": "portrait",
-  "lang": "en",
+  "lang": "pt",
   "icons": [
     {
-      "src": "/icon.svg?v=4",
+      "src": "/icon.svg?v=5",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

@@ -1,4 +1,4 @@
-# Publicar Heart2Heart — GitHub + Vercel + Neon
+# Publicar talk-to-2 — GitHub + Vercel + Neon
 
 Guia para publicar a app usando o teu GitHub (como as tuas outras apps).
 
@@ -68,55 +68,26 @@ Em **Settings → Environment Variables**, adiciona:
 | `DATABASE_URL` | pooled connection do Neon |
 | `DIRECT_URL` | direct connection do Neon |
 | `JWT_SECRET` | frase longa aleatória |
-| `MAE_USERNAME` | ex: `maria` |
-| `MAE_PASSWORD` | password forte da mãe |
-| `MAE_NAME` | `Mãe` |
-| `FILHO_USERNAME` | ex: `joao` |
-| `FILHO_PASSWORD` | password forte do filho |
-| `FILHO_NAME` | `Filho` |
 
 Depois: **Deployments → ⋮ → Redeploy**
 
 ---
 
-## Passo 5 — Criar tabelas e contas
+## Passo 5 — Criar tabelas
 
-No teu computador, edita o `.env`:
-
-```env
-DATABASE_URL="postgresql://..."
-DIRECT_URL="postgresql://..."
-MAE_USERNAME="maria"
-MAE_PASSWORD="password-da-mae"
-MAE_NAME="Mãe"
-FILHO_USERNAME="joao"
-FILHO_PASSWORD="password-do-filho"
-FILHO_NAME="Filho"
-```
-
-Depois corre:
+No teu computador, edita o `.env` com `DATABASE_URL`, `DIRECT_URL` e `JWT_SECRET`, depois corre:
 
 ```bash
 npm run db:setup:remote
 ```
 
-Deves ver: `Base de dados remota pronta!`
-
 ---
 
-## Passo 6 — Testar e enviar
+## Passo 6 — Testar
 
-1. Abre https://heart2heart-sepia.vercel.app
-2. Testa login da mãe e do filho
+1. Abre a URL da Vercel
+2. Cria uma conversa, copia o código e entra noutro browser
 3. Envia mensagens e testa **Adeus**
-
-Envia à tua amiga:
-
-> **App:** https://heart2heart-sepia.vercel.app  
-> **A tua conta:** maria / [password]  
-> **Conta do filho:** joao / [password]  
-> Instala no telemóvel: Adicionar ao Ecrã Principal  
-> Para terminar a conversa, escreve **Adeus**
 
 ---
 
@@ -141,7 +112,7 @@ Se preferires não usar Neon separado:
 
 ## Problemas comuns
 
-**"Credenciais inválidas"** → Corre `npm run db:setup:remote` outra vez
+**"Não encontrámos essa conversa"** → Confirma o código de 6 caracteres
 
 **Erro 500** → Verifica `DATABASE_URL` e `DIRECT_URL` na Vercel
 

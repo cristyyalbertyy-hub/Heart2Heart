@@ -6,25 +6,33 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   const session = await getSession();
   if (!session) {
-    return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
-  const messages = await prisma.message.findMany({
-    orderBy: { createdAt: "asc" },
-    include: {
-      sender: {
-        select: { id: true, displayName: true, username: true },
+  const [messages, members] = await Promise.all([
+    prisma.message.findMany({
+      where: { roomId: session.roomId },
+      orderBy: { createdAt: "asc" },
+      include: {
+        sender: {
+          select: { id: true, displayName: true },
+        },
       },
-    },
-  });
+    }),
+    prisma.roomMember.findMany({
+      where: { roomId: session.roomId },
+      select: { id: true, displayName: true },
+      orderBy: { createdAt: "asc" },
+    }),
+  ]);
 
-  return NextResponse.json({ messages });
+  return NextResponse.json({ messages, members });
 }
 
 export async function POST(request: Request) {
   const session = await getSession();
   if (!session) {
-    return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
   try {
@@ -33,13 +41,15 @@ export async function POST(request: Request) {
 
     if (!trimmed) {
       return NextResponse.json(
-        { error: "Message cannot be empty." },
+        { error: "A mensagem não pode estar vazia." },
         { status: 400 }
       );
     }
 
     if (isGoodbyeMessage(trimmed)) {
-      await prisma.message.deleteMany();
+      await prisma.message.deleteMany({
+        where: { roomId: session.roomId },
+      });
 
       return NextResponse.json({
         goodbye: true,
@@ -50,11 +60,12 @@ export async function POST(request: Request) {
     const message = await prisma.message.create({
       data: {
         content: trimmed,
-        senderId: session.userId,
+        roomId: session.roomId,
+        senderId: session.memberId,
       },
       include: {
         sender: {
-          select: { id: true, displayName: true, username: true },
+          select: { id: true, displayName: true },
         },
       },
     });
@@ -62,7 +73,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ message, goodbye: false });
   } catch {
     return NextResponse.json(
-      { error: "Could not send message." },
+      { error: "Não foi possível enviar a mensagem." },
       { status: 500 }
     );
   }

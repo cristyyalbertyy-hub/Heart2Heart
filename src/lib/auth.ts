@@ -1,7 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-const COOKIE_NAME = "heart2heart_session";
+const COOKIE_NAME = "talkto2_session";
 
 function getSecret() {
   const secret = process.env.JWT_SECRET;
@@ -12,8 +12,9 @@ function getSecret() {
 }
 
 export type SessionPayload = {
-  userId: string;
-  username: string;
+  memberId: string;
+  roomId: string;
+  roomCode: string;
   displayName: string;
 };
 

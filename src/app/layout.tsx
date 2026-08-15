@@ -8,14 +8,14 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Heart2Heart",
-  description: "Heart wellness and connection",
-  applicationName: "Heart2Heart",
+  title: "talk-to-2",
+  description: "Uma conversa privada, só a dois.",
+  applicationName: "talk-to-2",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Heart2Heart",
+    title: "talk-to-2",
   },
   icons: {
     icon: "/icon.svg",
@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${nunito.variable} h-full`}>
+    <html lang="pt" className={`${nunito.variable} h-full`}>
       <body className="min-h-full flex flex-col font-sans antialiased">
         <div className="flex min-h-full flex-1 flex-col bg-gradient-to-b from-rose-50 via-white to-amber-50">
           {children}

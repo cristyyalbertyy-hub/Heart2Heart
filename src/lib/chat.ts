@@ -1,5 +1,5 @@
-export const GOODBYE_WORD = "goodbye";
+const GOODBYE_WORDS = new Set(["adeus", "goodbye"]);
 
 export function isGoodbyeMessage(content: string): boolean {
-  return content.trim().toLowerCase() === GOODBYE_WORD;
+  return GOODBYE_WORDS.has(content.trim().toLowerCase());
 }
