@@ -1,55 +1,52 @@
 export const AVATARS = [
   {
-    id: "vermelho",
-    label: "Vermelho",
-    hair: "#1A120B",
-    top: "#E53935",
-    bottom: "#2C2C2C",
-    nameColor: "#FFFFFF",
+    id: "coral",
+    label: "Coral",
+    hair: "#E8C96A",
+    top: "#E8A090",
+    nameColor: "#5C3A32",
   },
   {
     id: "azul",
     label: "Azul",
-    hair: "#1A120B",
-    top: "#1E88E5",
-    bottom: "#2C2C2C",
-    nameColor: "#FFFFFF",
+    hair: "#C4A07A",
+    top: "#A8C8E8",
+    nameColor: "#2A4460",
   },
   {
-    id: "verde",
-    label: "Verde",
-    hair: "#1A120B",
-    top: "#43A047",
-    bottom: "#2C2C2C",
-    nameColor: "#FFFFFF",
+    id: "menta",
+    label: "Menta",
+    hair: "#5C4030",
+    top: "#B8D8C8",
+    nameColor: "#2A4A3A",
   },
   {
-    id: "roxo",
-    label: "Roxo",
-    hair: "#1A120B",
-    top: "#8E24AA",
-    bottom: "#2C2C2C",
-    nameColor: "#FFFFFF",
+    id: "lilas",
+    label: "Lilás",
+    hair: "#E8C96A",
+    top: "#C8B8E0",
+    nameColor: "#3A2A55",
   },
   {
     id: "laranja",
     label: "Laranja",
-    hair: "#1A120B",
-    top: "#FB8C00",
-    bottom: "#2C2C2C",
-    nameColor: "#FFFFFF",
+    hair: "#A87850",
+    top: "#E8B070",
+    nameColor: "#5C3A1E",
   },
   {
-    id: "turquesa",
-    label: "Turquesa",
-    hair: "#1A120B",
-    top: "#26A69A",
-    bottom: "#2C2C2C",
-    nameColor: "#FFFFFF",
+    id: "rosa",
+    label: "Rosa",
+    hair: "#5C4030",
+    top: "#E8A8C0",
+    nameColor: "#5C2A40",
   },
 ] as const;
 
-export const AVATAR_SKIN = "#F5D76E";
+export const AVATAR_SKIN = "#F5D5BC";
+export const AVATAR_LEG = "#E8C9A8";
+export const AVATAR_FOOT = "#A67C52";
+export const AVATAR_STROKE = "#5C5048";
 
 export type AvatarId = (typeof AVATARS)[number]["id"];
 
@@ -61,4 +58,4 @@ export function getAvatar(id: string | null | undefined) {
   return AVATARS.find((avatar) => avatar.id === id) ?? AVATARS[0];
 }
 
-export const DEFAULT_AVATAR_ID: AvatarId = "vermelho";
+export const DEFAULT_AVATAR_ID: AvatarId = "coral";
