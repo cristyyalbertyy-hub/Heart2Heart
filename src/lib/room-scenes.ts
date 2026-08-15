@@ -3,6 +3,12 @@ export const ROOM_SCENES = [
   { id: "sala-02", src: "/rooms/sala-02.jpg", label: "Sala 2" },
   { id: "sala-03", src: "/rooms/sala-03.jpg", label: "Sala 3" },
   { id: "sala-04", src: "/rooms/sala-04.jpg", label: "Sala 4" },
+  { id: "sala-05", src: "/rooms/sala-05.jpg", label: "Sala 5" },
+  { id: "sala-06", src: "/rooms/sala-06.jpg", label: "Sala 6" },
+  { id: "sala-07", src: "/rooms/sala-07.jpg", label: "Sala 7" },
+  { id: "sala-08", src: "/rooms/sala-08.jpg", label: "Sala 8" },
+  { id: "sala-09", src: "/rooms/sala-09.jpg", label: "Sala 9" },
+  { id: "sala-10", src: "/rooms/sala-10.jpg", label: "Sala 10" },
 ] as const;
 
 export type RoomSceneId = (typeof ROOM_SCENES)[number]["id"];
