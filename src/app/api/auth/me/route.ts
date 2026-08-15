@@ -28,7 +28,7 @@ export async function GET() {
     member: {
       id: session.memberId,
       displayName: session.displayName,
-      avatarId: me?.avatarId ?? "layla",
+      avatarId: me?.avatarId ?? "mulher-loira",
     },
     room: {
       id: room.id,

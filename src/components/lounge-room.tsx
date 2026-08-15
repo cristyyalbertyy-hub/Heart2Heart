@@ -101,26 +101,19 @@ export function LoungeRoom({
               <div className="drop-shadow-[0_8px_12px_rgba(0,0,0,0.35)]">
                 <LegoAvatar
                   avatarId={member.avatarId}
+                  name={member.displayName}
                   size={64}
                   seated
                   className="sm:hidden"
                 />
                 <LegoAvatar
                   avatarId={member.avatarId}
+                  name={member.displayName}
                   size={78}
                   seated
                   className="hidden sm:block"
                 />
               </div>
-              <p
-                className={`mt-0.5 max-w-[86px] truncate rounded-full px-2 py-0.5 text-center text-[9px] font-semibold shadow sm:text-[10px] ${
-                  isMe
-                    ? "bg-rose-500 text-white"
-                    : "bg-black/45 text-amber-50"
-                }`}
-              >
-                {member.displayName}
-              </p>
             </div>
           );
         })}

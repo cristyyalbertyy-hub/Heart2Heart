@@ -146,7 +146,7 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
             <span className="mb-2 block text-sm font-medium text-rose-900">
               Your avatar
             </span>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               {AVATARS.map((avatar) => {
                 const selected = avatarId === avatar.id;
                 return (
@@ -160,8 +160,13 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
                         : "border-rose-100 bg-white hover:border-rose-200"
                     }`}
                   >
-                    <LegoAvatar avatarId={avatar.id} size={52} seated={false} />
-                    <span className="mt-1 text-[10px] font-medium text-rose-800">
+                    <LegoAvatar
+                      avatarId={avatar.id}
+                      name={displayName.trim() || "nome"}
+                      size={56}
+                      seated={false}
+                    />
+                    <span className="mt-1 text-center text-[10px] font-medium leading-tight text-rose-800">
                       {avatar.label}
                     </span>
                   </button>
