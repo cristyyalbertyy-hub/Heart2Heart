@@ -10,6 +10,7 @@
     "db:migrate": "prisma migrate dev",
     "db:setup": "prisma db push",
     "db:setup:remote": "npx tsx scripts/setup-remote.ts",
+    "db:cleanup": "npx tsx scripts/cleanup.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {

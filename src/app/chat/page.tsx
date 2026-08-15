@@ -120,8 +120,8 @@ export default function ChatPage() {
       setContent("");
 
       if (data.goodbye) {
-        setMessages([]);
-        setNotice("The chat was cleared.");
+        router.replace("/");
+        router.refresh();
         return;
       }
 

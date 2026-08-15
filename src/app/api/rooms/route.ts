@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { createSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { deleteInactiveRooms } from "@/lib/cleanup";
 import {
   generateRoomCode,
   isValidDisplayName,
@@ -32,6 +33,8 @@ export async function POST(request: Request) {
 
     const pinHash = await bcrypt.hash(pinValue, 10);
     const nameKey = nameKeyFromDisplayName(name);
+
+    await deleteInactiveRooms();
 
     let room = null;
     for (let attempt = 0; attempt < 8; attempt += 1) {
