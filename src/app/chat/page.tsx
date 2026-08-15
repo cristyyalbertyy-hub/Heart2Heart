@@ -162,8 +162,8 @@ export default function ChatPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-full w-full max-w-2xl flex-1 flex-col bg-gradient-to-b from-[#3b1f14] via-[#6b3a2a] to-[#1f120c]">
-      <header className="sticky top-0 z-20 border-b border-amber-200/20 bg-[#2a160f]/85 px-4 py-3 backdrop-blur">
+    <main className="mx-auto flex min-h-full w-full max-w-2xl flex-1 flex-col bg-gradient-to-b from-[#2c241c] via-[#4a3b2f] to-[#1a1410]">
+      <header className="sticky top-0 z-20 border-b border-amber-200/15 bg-[#1a1410]/80 px-4 py-3 backdrop-blur">
         <div className="flex items-center justify-between gap-3">
           <div>
             <h1 className="text-lg font-semibold text-amber-50">same-room</h1>
@@ -175,7 +175,7 @@ export default function ChatPage() {
           </div>
           <button
             onClick={handleLogout}
-            className="rounded-full border border-amber-200/30 px-4 py-2 text-sm text-amber-50 transition hover:bg-white/10"
+            className="rounded-full border border-amber-200/25 px-4 py-2 text-sm text-amber-50 transition hover:bg-white/10"
           >
             Leave
           </button>
