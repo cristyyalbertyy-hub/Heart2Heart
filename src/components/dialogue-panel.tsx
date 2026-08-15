@@ -1,5 +1,7 @@
 "use client";
 
+import { getAvatar } from "@/lib/avatars";
+
 type DialogueMessage = {
   id: string;
   content: string;
@@ -7,12 +9,12 @@ type DialogueMessage = {
   sender: {
     id: string;
     displayName: string;
+    avatarId?: string;
   };
 };
 
 type DialoguePanelProps = {
   messages: DialogueMessage[];
-  currentMemberId?: string;
   className?: string;
 };
 
@@ -29,7 +31,6 @@ function formatTime(value: string) {
 
 export function DialoguePanel({
   messages,
-  currentMemberId,
   className = "",
 }: DialoguePanelProps) {
   return (
@@ -49,27 +50,21 @@ export function DialoguePanel({
           </p>
         ) : (
           messages.map((message) => {
-            const isMe = message.sender.id === currentMemberId;
+            const look = getAvatar(message.sender.avatarId);
             return (
               <div
                 key={message.id}
-                className={`rounded-2xl px-3 py-2 ${
-                  isMe ? "bg-rose-500/90 text-white" : "bg-white/10 text-amber-50"
-                }`}
+                className="rounded-2xl px-3 py-2"
+                style={{
+                  backgroundColor: look.top,
+                  color: look.nameColor,
+                }}
               >
                 <div className="mb-0.5 flex items-baseline justify-between gap-2">
-                  <span
-                    className={`text-[11px] font-semibold ${
-                      isMe ? "text-rose-50" : "text-amber-200/90"
-                    }`}
-                  >
+                  <span className="text-[11px] font-semibold opacity-90">
                     {message.sender.displayName}
                   </span>
-                  <span
-                    className={`text-[10px] ${
-                      isMe ? "text-rose-100/70" : "text-amber-100/40"
-                    }`}
-                  >
+                  <span className="text-[10px] opacity-60">
                     {formatTime(message.createdAt)}
                   </span>
                 </div>

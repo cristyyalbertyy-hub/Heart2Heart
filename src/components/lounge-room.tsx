@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { LegoAvatar } from "@/components/lego-avatar";
+import { getAvatar } from "@/lib/avatars";
 import { getRoomScene } from "@/lib/room-scenes";
 
 export type RoomSeatMember = {
@@ -19,7 +20,6 @@ export type RoomBubble = {
 type LoungeRoomProps = {
   members: RoomSeatMember[];
   bubbles: RoomBubble[];
-  currentMemberId?: string;
   sceneId?: string;
 };
 
@@ -43,7 +43,6 @@ function seatPositions(count: number) {
 export function LoungeRoom({
   members,
   bubbles,
-  currentMemberId,
   sceneId,
 }: LoungeRoomProps) {
   const scene = getRoomScene(sceneId);
@@ -71,7 +70,7 @@ export function LoungeRoom({
         {members.map((member, index) => {
           const bubble = bubbleByMember.get(member.id);
           const left = positions[index] ?? "50%";
-          const isMe = member.id === currentMemberId;
+          const look = getAvatar(member.avatarId);
 
           return (
             <div
@@ -87,18 +86,17 @@ export function LoungeRoom({
               {bubble && (
                 <div className="absolute bottom-full left-1/2 z-20 mb-1 w-max max-w-[130px] -translate-x-1/2 animate-[fadeIn_0.35s_ease] sm:max-w-[150px]">
                   <div
-                    className={`rounded-2xl px-2.5 py-1.5 text-center text-[10px] leading-snug shadow-lg sm:text-[11px] ${
-                      isMe
-                        ? "bg-rose-500 text-white"
-                        : "bg-white/95 text-stone-800"
-                    }`}
+                    className="rounded-2xl px-2.5 py-1.5 text-center text-[10px] leading-snug shadow-lg sm:text-[11px]"
+                    style={{
+                      backgroundColor: look.top,
+                      color: look.nameColor,
+                    }}
                   >
                     <p className="line-clamp-3 break-words">{bubble.content}</p>
                   </div>
                   <div
-                    className={`mx-auto h-0 w-0 border-x-[7px] border-t-[7px] border-x-transparent ${
-                      isMe ? "border-t-rose-500" : "border-t-white/95"
-                    }`}
+                    className="mx-auto h-0 w-0 border-x-[7px] border-t-[7px] border-x-transparent"
+                    style={{ borderTopColor: look.top }}
                   />
                 </div>
               )}

@@ -244,14 +244,12 @@ export default function ChatPage() {
             <LoungeRoom
               members={members}
               bubbles={bubbles}
-              currentMemberId={member?.id}
               sceneId={sceneId}
             />
           </div>
 
           <DialoguePanel
             messages={messages}
-            currentMemberId={member?.id}
             className={`min-h-[280px] md:min-h-[420px] ${
               mobileView === "text" ? "flex" : "hidden md:flex"
             }`}
