@@ -72,15 +72,16 @@ export function LoungeRoom({
           return (
             <div
               key={member.id}
-              className="absolute z-10 flex w-[76px] -translate-x-1/2 flex-col items-center sm:w-[92px]"
+              className="absolute z-10 w-[76px] -translate-x-1/2 sm:w-[92px]"
               style={{
                 left,
                 // Sit on the white sofa cushions in the photo
                 top: "48%",
               }}
             >
+              {/* Bubble is absolute so it never pushes the avatar off the sofa */}
               {bubble && (
-                <div className="mb-1 max-w-[130px] animate-[fadeIn_0.35s_ease] sm:max-w-[150px]">
+                <div className="absolute bottom-full left-1/2 z-20 mb-1 w-max max-w-[130px] -translate-x-1/2 animate-[fadeIn_0.35s_ease] sm:max-w-[150px]">
                   <div
                     className={`rounded-2xl px-2.5 py-1.5 text-center text-[10px] leading-snug shadow-lg sm:text-[11px] ${
                       isMe
@@ -98,7 +99,7 @@ export function LoungeRoom({
                 </div>
               )}
 
-              <div className="drop-shadow-[0_8px_12px_rgba(0,0,0,0.35)]">
+              <div className="flex justify-center drop-shadow-[0_8px_12px_rgba(0,0,0,0.35)]">
                 <LegoAvatar
                   avatarId={member.avatarId}
                   name={member.displayName}
