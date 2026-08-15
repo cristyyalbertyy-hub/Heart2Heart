@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { LegoAvatar } from "@/components/lego-avatar";
+import { AVATARS, DEFAULT_AVATAR_ID, type AvatarId } from "@/lib/avatars";
 
 type Mode = "create" | "join";
 
@@ -15,6 +17,7 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
   const [displayName, setDisplayName] = useState("");
   const [pin, setPin] = useState("");
   const [code, setCode] = useState(initialCode.toUpperCase());
+  const [avatarId, setAvatarId] = useState<AvatarId>(DEFAULT_AVATAR_ID);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -32,6 +35,7 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
           body: JSON.stringify({
             displayName,
             pin,
+            avatarId,
             ...(mode === "join" ? { code } : {}),
           }),
         }
@@ -65,7 +69,7 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
           </div>
           <h1 className="text-3xl font-semibold text-rose-950">same-room</h1>
           <p className="mt-2 text-sm text-rose-700/80">
-            A private room. Share the code to invite people.
+            Choose your look. Join the lounge.
           </p>
         </div>
 
@@ -138,6 +142,34 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
             />
           </label>
 
+          <div className="mb-4">
+            <span className="mb-2 block text-sm font-medium text-rose-900">
+              Your avatar
+            </span>
+            <div className="grid grid-cols-4 gap-2">
+              {AVATARS.map((avatar) => {
+                const selected = avatarId === avatar.id;
+                return (
+                  <button
+                    key={avatar.id}
+                    type="button"
+                    onClick={() => setAvatarId(avatar.id)}
+                    className={`flex flex-col items-center rounded-2xl border px-1 py-2 transition ${
+                      selected
+                        ? "border-rose-400 bg-rose-50 ring-2 ring-rose-200"
+                        : "border-rose-100 bg-white hover:border-rose-200"
+                    }`}
+                  >
+                    <LegoAvatar avatarId={avatar.id} size={52} seated={false} />
+                    <span className="mt-1 text-[10px] font-medium text-rose-800">
+                      {avatar.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           <label className="mb-6 block">
             <span className="mb-2 block text-sm font-medium text-rose-900">
               4-digit PIN
@@ -147,7 +179,9 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
               inputMode="numeric"
               pattern="\d{4}"
               value={pin}
-              onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 4))}
+              onChange={(e) =>
+                setPin(e.target.value.replace(/\D/g, "").slice(0, 4))
+              }
               autoComplete="off"
               placeholder="••••"
               className="w-full rounded-2xl border border-rose-100 bg-rose-50/50 px-4 py-3 text-rose-950 outline-none transition focus:border-rose-300 focus:ring-2 focus:ring-rose-200"
@@ -172,8 +206,8 @@ export function HomeClient({ initialCode = "" }: HomeClientProps) {
             {loading
               ? "Please wait..."
               : mode === "create"
-                ? "Start"
-                : "Join chat"}
+                ? "Enter the lounge"
+                : "Join lounge"}
           </button>
         </form>
       </div>

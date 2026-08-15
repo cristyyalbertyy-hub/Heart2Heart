@@ -17,7 +17,7 @@ Guia para publicar a app usando o teu GitHub (como as tuas outras apps).
 
 > O GitHub **não pode** guardar mensagens em tempo real — só o código. Para as mensagens usamos o **Neon**, que também entras com a conta GitHub.
 
-**URL da app:** https://heart2heart-sepia.vercel.app
+**URL da app:** https://sameroom.vercel.app
 
 ---
 

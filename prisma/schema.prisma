@@ -22,6 +22,7 @@ model RoomMember {
   displayName String
   nameKey     String
   pinHash     String
+  avatarId    String    @default("layla")
   createdAt   DateTime  @default(now())
   messages    Message[]
 

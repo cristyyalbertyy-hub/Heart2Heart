@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { createSession } from "@/lib/auth";
+import { DEFAULT_AVATAR_ID, isValidAvatarId } from "@/lib/avatars";
 import { prisma } from "@/lib/prisma";
 import { deleteInactiveRooms } from "@/lib/cleanup";
 import {
@@ -13,9 +14,12 @@ import {
 
 export async function POST(request: Request) {
   try {
-    const { displayName, pin } = await request.json();
+    const { displayName, pin, avatarId } = await request.json();
     const name = normalizeDisplayName(String(displayName ?? ""));
     const pinValue = String(pin ?? "").trim();
+    const chosenAvatar = isValidAvatarId(String(avatarId ?? ""))
+      ? String(avatarId)
+      : DEFAULT_AVATAR_ID;
 
     if (!isValidDisplayName(name)) {
       return NextResponse.json(
@@ -48,6 +52,7 @@ export async function POST(request: Request) {
                 displayName: name,
                 nameKey,
                 pinHash,
+                avatarId: chosenAvatar,
               },
             },
           },
@@ -76,7 +81,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       room: { id: room.id, code: room.code },
-      member: { id: member.id, displayName: member.displayName },
+      member: {
+        id: member.id,
+        displayName: member.displayName,
+        avatarId: member.avatarId,
+      },
     });
   } catch {
     return NextResponse.json(

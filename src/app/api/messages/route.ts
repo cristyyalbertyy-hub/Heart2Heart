@@ -15,13 +15,13 @@ export async function GET() {
       orderBy: { createdAt: "asc" },
       include: {
         sender: {
-          select: { id: true, displayName: true },
+          select: { id: true, displayName: true, avatarId: true },
         },
       },
     }),
     prisma.roomMember.findMany({
       where: { roomId: session.roomId },
-      select: { id: true, displayName: true },
+      select: { id: true, displayName: true, avatarId: true },
       orderBy: { createdAt: "asc" },
     }),
   ]);
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
       },
       include: {
         sender: {
-          select: { id: true, displayName: true },
+          select: { id: true, displayName: true, avatarId: true },
         },
       },
     });

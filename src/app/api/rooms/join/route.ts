@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { createSession } from "@/lib/auth";
+import { DEFAULT_AVATAR_ID, isValidAvatarId } from "@/lib/avatars";
 import { prisma } from "@/lib/prisma";
 import {
   isValidDisplayName,
@@ -14,10 +15,13 @@ import {
 
 export async function POST(request: Request) {
   try {
-    const { code, displayName, pin } = await request.json();
+    const { code, displayName, pin, avatarId } = await request.json();
     const roomCode = normalizeRoomCode(String(code ?? ""));
     const name = normalizeDisplayName(String(displayName ?? ""));
     const pinValue = String(pin ?? "").trim();
+    const chosenAvatar = isValidAvatarId(String(avatarId ?? ""))
+      ? String(avatarId)
+      : DEFAULT_AVATAR_ID;
 
     if (!isValidRoomCode(roomCode)) {
       return NextResponse.json(
@@ -64,16 +68,25 @@ export async function POST(request: Request) {
         );
       }
 
+      const member = await prisma.roomMember.update({
+        where: { id: existing.id },
+        data: { avatarId: chosenAvatar },
+      });
+
       await createSession({
-        memberId: existing.id,
+        memberId: member.id,
         roomId: room.id,
         roomCode: room.code,
-        displayName: existing.displayName,
+        displayName: member.displayName,
       });
 
       return NextResponse.json({
         room: { id: room.id, code: room.code },
-        member: { id: existing.id, displayName: existing.displayName },
+        member: {
+          id: member.id,
+          displayName: member.displayName,
+          avatarId: member.avatarId,
+        },
       });
     }
 
@@ -90,6 +103,7 @@ export async function POST(request: Request) {
         displayName: name,
         nameKey,
         pinHash: await bcrypt.hash(pinValue, 10),
+        avatarId: chosenAvatar,
       },
     });
 
@@ -102,7 +116,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       room: { id: room.id, code: room.code },
-      member: { id: member.id, displayName: member.displayName },
+      member: {
+        id: member.id,
+        displayName: member.displayName,
+        avatarId: member.avatarId,
+      },
     });
   } catch {
     return NextResponse.json(

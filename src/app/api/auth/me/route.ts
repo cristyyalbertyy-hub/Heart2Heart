@@ -12,7 +12,7 @@ export async function GET() {
     where: { id: session.roomId },
     include: {
       members: {
-        select: { id: true, displayName: true },
+        select: { id: true, displayName: true, avatarId: true },
         orderBy: { createdAt: "asc" },
       },
     },
@@ -22,10 +22,13 @@ export async function GET() {
     return NextResponse.json({ member: null }, { status: 401 });
   }
 
+  const me = room.members.find((member) => member.id === session.memberId);
+
   return NextResponse.json({
     member: {
       id: session.memberId,
       displayName: session.displayName,
+      avatarId: me?.avatarId ?? "layla",
     },
     room: {
       id: room.id,
