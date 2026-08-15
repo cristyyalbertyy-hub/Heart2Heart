@@ -1,6 +1,8 @@
 "use client";
 
+import { VoiceNote } from "@/components/voice-note";
 import { getAvatar } from "@/lib/avatars";
+import { isVoiceContent } from "@/lib/voice";
 
 type DialogueMessage = {
   id: string;
@@ -68,9 +70,13 @@ export function DialoguePanel({
                     {formatTime(message.createdAt)}
                   </span>
                 </div>
-                <p className="text-sm leading-snug break-words whitespace-pre-wrap">
-                  {message.content}
-                </p>
+                {isVoiceContent(message.content) ? (
+                  <VoiceNote content={message.content} />
+                ) : (
+                  <p className="text-sm leading-snug break-words whitespace-pre-wrap">
+                    {message.content}
+                  </p>
+                )}
               </div>
             );
           })

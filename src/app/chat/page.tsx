@@ -1,10 +1,15 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DialoguePanel } from "@/components/dialogue-panel";
 import { LoungeRoom } from "@/components/lounge-room";
 import { MAX_MEMBERS } from "@/lib/rooms";
+import {
+  blobToDataUrl,
+  encodeVoiceMessage,
+  MAX_VOICE_SECONDS,
+} from "@/lib/voice";
 
 type Member = {
   id: string;
@@ -38,6 +43,11 @@ export default function ChatPage() {
   const [notice, setNotice] = useState("");
   const [copied, setCopied] = useState(false);
   const [mobileView, setMobileView] = useState<MobileView>("room");
+  const [recording, setRecording] = useState(false);
+  const [recordSeconds, setRecordSeconds] = useState(0);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
+  const timerRef = useRef<number | null>(null);
 
   const others = members.filter((item) => item.id !== member?.id);
   const canInvite = members.length < MAX_MEMBERS;
@@ -102,6 +112,13 @@ export default function ChatPage() {
     return () => clearInterval(interval);
   }, [fetchMessages]);
 
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) window.clearInterval(timerRef.current);
+      mediaRecorderRef.current?.stream.getTracks().forEach((track) => track.stop());
+    };
+  }, []);
+
   async function handleLogout() {
     await fetch("/api/auth/logout", { method: "POST" });
     router.replace("/");
@@ -121,11 +138,7 @@ export default function ChatPage() {
     }
   }
 
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    const trimmed = content.trim();
-    if (!trimmed || sending) return;
-
+  async function sendMessage(trimmed: string) {
     setSending(true);
     setNotice("");
 
@@ -156,6 +169,91 @@ export default function ChatPage() {
       setNotice("Connection error. Please try again.");
     } finally {
       setSending(false);
+    }
+  }
+
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    const trimmed = content.trim();
+    if (!trimmed || sending || recording) return;
+    await sendMessage(trimmed);
+  }
+
+  function stopRecording() {
+    mediaRecorderRef.current?.stop();
+  }
+
+  async function toggleRecording() {
+    if (sending) return;
+
+    if (recording) {
+      stopRecording();
+      return;
+    }
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setNotice("This browser cannot record voice notes.");
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+        ? "audio/webm;codecs=opus"
+        : MediaRecorder.isTypeSupported("audio/webm")
+          ? "audio/webm"
+          : MediaRecorder.isTypeSupported("audio/mp4")
+            ? "audio/mp4"
+            : "";
+      const recorder = mimeType
+        ? new MediaRecorder(stream, { mimeType })
+        : new MediaRecorder(stream);
+
+      chunksRef.current = [];
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) chunksRef.current.push(event.data);
+      };
+      recorder.onstop = async () => {
+        stream.getTracks().forEach((track) => track.stop());
+        if (timerRef.current) window.clearInterval(timerRef.current);
+        setRecording(false);
+        setRecordSeconds(0);
+        mediaRecorderRef.current = null;
+
+        const blob = new Blob(chunksRef.current, {
+          type: recorder.mimeType || "audio/mp4",
+        });
+        chunksRef.current = [];
+
+        if (blob.size < 800) {
+          setNotice("Voice note was too short.");
+          return;
+        }
+
+        try {
+          const dataUrl = await blobToDataUrl(blob);
+          await sendMessage(encodeVoiceMessage(dataUrl));
+        } catch {
+          setNotice("Could not send the voice note.");
+        }
+      };
+
+      mediaRecorderRef.current = recorder;
+      recorder.start();
+      setRecording(true);
+      setRecordSeconds(0);
+      setNotice("");
+      timerRef.current = window.setInterval(() => {
+        setRecordSeconds((current) => {
+          const next = current + 1;
+          if (next >= MAX_VOICE_SECONDS) {
+            stopRecording();
+          }
+          return next;
+        });
+      }, 1000);
+    } catch {
+      setNotice("Microphone permission is needed to send a voice note.");
     }
   }
 
@@ -267,17 +365,30 @@ export default function ChatPage() {
         onSubmit={handleSubmit}
         className="sticky bottom-0 mt-auto border-t border-amber-200/20 bg-[#1a0f0a]/92 px-4 py-4 backdrop-blur"
       >
-        <div className="flex items-end gap-3">
+        <div className="flex items-end gap-2 sm:gap-3">
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={1}
-            placeholder="Say something..."
-            className="max-h-32 min-h-[48px] flex-1 resize-none rounded-2xl border border-amber-200/30 bg-white/95 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-amber-400 focus:ring-2 focus:ring-amber-300/40"
+            placeholder={recording ? "Recording..." : "Say something..."}
+            disabled={recording}
+            className="max-h-32 min-h-[48px] flex-1 resize-none rounded-2xl border border-amber-200/30 bg-white/95 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-amber-400 focus:ring-2 focus:ring-amber-300/40 disabled:opacity-70"
           />
           <button
+            type="button"
+            onClick={toggleRecording}
+            disabled={sending}
+            className={`rounded-2xl px-4 py-3 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-60 ${
+              recording
+                ? "bg-rose-500 text-white"
+                : "border border-amber-200/30 text-amber-50 hover:bg-white/10"
+            }`}
+          >
+            {recording ? `${recordSeconds}s` : "Voz"}
+          </button>
+          <button
             type="submit"
-            disabled={sending || !content.trim()}
+            disabled={sending || recording || !content.trim()}
             className="rounded-2xl bg-amber-500 px-5 py-3 text-sm font-medium text-stone-900 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Send

@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import { LegoAvatar } from "@/components/lego-avatar";
+import { VoiceNote } from "@/components/voice-note";
 import { getAvatar } from "@/lib/avatars";
 import { getRoomScene } from "@/lib/room-scenes";
+import { isVoiceContent } from "@/lib/voice";
 
 export type RoomSeatMember = {
   id: string;
@@ -92,7 +94,11 @@ export function LoungeRoom({
                       color: look.nameColor,
                     }}
                   >
-                    <p className="line-clamp-3 break-words">{bubble.content}</p>
+                    {isVoiceContent(bubble.content) ? (
+                      <VoiceNote content={bubble.content} compact />
+                    ) : (
+                      <p className="line-clamp-3 break-words">{bubble.content}</p>
+                    )}
                   </div>
                   <div
                     className="mx-auto h-0 w-0 border-x-[7px] border-t-[7px] border-x-transparent"

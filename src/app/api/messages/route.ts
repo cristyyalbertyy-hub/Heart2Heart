@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { clearSession, getSession } from "@/lib/auth";
 import { isGoodbyeMessage } from "@/lib/chat";
 import { prisma } from "@/lib/prisma";
+import { isVoiceContent, MAX_VOICE_BYTES } from "@/lib/voice";
 
 export async function GET() {
   const session = await getSession();
@@ -44,6 +45,19 @@ export async function POST(request: Request) {
         { error: "Message cannot be empty." },
         { status: 400 }
       );
+    }
+
+    if (isVoiceContent(trimmed)) {
+      const audio = trimmed.slice("voice:".length);
+      if (
+        !audio.startsWith("data:audio/") ||
+        Buffer.byteLength(trimmed, "utf8") > MAX_VOICE_BYTES
+      ) {
+        return NextResponse.json(
+          { error: "Voice note is too long. Try a shorter one." },
+          { status: 400 }
+        );
+      }
     }
 
     if (isGoodbyeMessage(trimmed)) {
