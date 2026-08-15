@@ -1,65 +1,55 @@
 export const AVATARS = [
   {
-    id: "mulher-loira",
-    label: "Mulher loira",
-    hairStyle: "long" as const,
-    skin: "#F3C7A8",
-    hair: "#E8C84A",
-    top: "#F5B8C8",
-    bottom: "#D97890",
-    nameColor: "#5C2A3A",
-  },
-  {
-    id: "mulher-morena",
-    label: "Mulher morena",
-    hairStyle: "long" as const,
-    skin: "#C68642",
-    hair: "#5C3A1E",
-    top: "#5DBDB5",
-    bottom: "#2F8F88",
-    nameColor: "#0F3D3A",
-  },
-  {
-    id: "mulher-preto",
-    label: "Mulher cabelo preto",
-    hairStyle: "long" as const,
-    skin: "#6B3F2A",
+    id: "vermelho",
+    label: "Vermelho",
     hair: "#1A120B",
-    top: "#C9B8E8",
-    bottom: "#8B6DB8",
-    nameColor: "#3A2A55",
+    top: "#E53935",
+    bottom: "#2C2C2C",
+    nameColor: "#FFFFFF",
   },
   {
-    id: "homem-loiro",
-    label: "Homem loiro",
-    hairStyle: "short" as const,
-    skin: "#F3C7A8",
-    hair: "#E8C84A",
-    top: "#A8C8F0",
-    bottom: "#3F6FD0",
-    nameColor: "#1E3A6B",
-  },
-  {
-    id: "homem-moreno",
-    label: "Homem moreno",
-    hairStyle: "short" as const,
-    skin: "#C68642",
-    hair: "#5C3A1E",
-    top: "#A8D4A0",
-    bottom: "#3F9A55",
-    nameColor: "#1E4A28",
-  },
-  {
-    id: "homem-preto",
-    label: "Homem cabelo preto",
-    hairStyle: "short" as const,
-    skin: "#6B3F2A",
+    id: "azul",
+    label: "Azul",
     hair: "#1A120B",
-    top: "#F0C0A0",
-    bottom: "#B86A48",
-    nameColor: "#5A2E1E",
+    top: "#1E88E5",
+    bottom: "#2C2C2C",
+    nameColor: "#FFFFFF",
+  },
+  {
+    id: "verde",
+    label: "Verde",
+    hair: "#1A120B",
+    top: "#43A047",
+    bottom: "#2C2C2C",
+    nameColor: "#FFFFFF",
+  },
+  {
+    id: "roxo",
+    label: "Roxo",
+    hair: "#1A120B",
+    top: "#8E24AA",
+    bottom: "#2C2C2C",
+    nameColor: "#FFFFFF",
+  },
+  {
+    id: "laranja",
+    label: "Laranja",
+    hair: "#1A120B",
+    top: "#FB8C00",
+    bottom: "#2C2C2C",
+    nameColor: "#FFFFFF",
+  },
+  {
+    id: "turquesa",
+    label: "Turquesa",
+    hair: "#1A120B",
+    top: "#26A69A",
+    bottom: "#2C2C2C",
+    nameColor: "#FFFFFF",
   },
 ] as const;
+
+export const AVATAR_SKIN = "#F5D76E";
 
 export type AvatarId = (typeof AVATARS)[number]["id"];
 
@@ -71,4 +61,4 @@ export function getAvatar(id: string | null | undefined) {
   return AVATARS.find((avatar) => avatar.id === id) ?? AVATARS[0];
 }
 
-export const DEFAULT_AVATAR_ID: AvatarId = "mulher-loira";
+export const DEFAULT_AVATAR_ID: AvatarId = "vermelho";

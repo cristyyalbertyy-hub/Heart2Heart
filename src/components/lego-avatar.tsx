@@ -1,4 +1,4 @@
-import { getAvatar, type AvatarId } from "@/lib/avatars";
+import { AVATAR_SKIN, getAvatar, type AvatarId } from "@/lib/avatars";
 
 type LegoAvatarProps = {
   avatarId: string;
@@ -25,10 +25,11 @@ export function LegoAvatar({
   const label = shirtName(name);
   const height = seated ? size * 1.05 : size * 1.2;
   const viewH = seated ? 100 : 112;
+  const torsoY = 40;
+  const armY = seated ? 44 : 46;
   const legY = seated ? 68 : 72;
-  const legH = seated ? 16 : 26;
-  const shoeY = seated ? 82 : 96;
-  const platformY = seated ? 90 : 106;
+  const legH = seated ? 18 : 28;
+  const footY = seated ? 84 : 98;
 
   return (
     <svg
@@ -38,54 +39,41 @@ export function LegoAvatar({
       className={className}
       aria-hidden="true"
     >
-      {/* soft ground shadow */}
-      <ellipse
-        cx="40"
-        cy={platformY + 2}
-        rx="24"
-        ry="4"
-        fill="#00000022"
-      />
-
-      {/* platform */}
-      <rect
-        x="16"
-        y={platformY}
-        width="48"
-        height="3"
-        rx="1.5"
-        fill="#A67C52"
-      />
+      <ellipse cx="40" cy={footY + 8} rx="22" ry="4" fill="#00000028" />
 
       {/* legs */}
       <rect
-        x="24"
+        x="26"
         y={legY}
-        width="14"
+        width="12"
         height={legH}
-        rx="4"
+        rx="3"
         fill={avatar.bottom}
       />
       <rect
         x="42"
         y={legY}
-        width="14"
+        width="12"
         height={legH}
-        rx="4"
+        rx="3"
         fill={avatar.bottom}
       />
+      <rect x="24" y={footY} width="14" height="6" rx="2" fill={avatar.bottom} />
+      <rect x="42" y={footY} width="14" height="6" rx="2" fill={avatar.bottom} />
 
-      {/* shoes */}
-      <rect x="22" y={shoeY} width="16" height="6" rx="2" fill="#5C3A1E" />
-      <rect x="42" y={shoeY} width="16" height="6" rx="2" fill="#5C3A1E" />
+      {/* arms behind torso edges */}
+      <rect x="6" y={armY} width="14" height="22" rx="6" fill={avatar.top} />
+      <rect x="60" y={armY} width="14" height="22" rx="6" fill={avatar.top} />
+      <circle cx="13" cy={armY + 24} r="6" fill={AVATAR_SKIN} />
+      <circle cx="67" cy={armY + 24} r="6" fill={AVATAR_SKIN} />
 
       {/* torso / blouse */}
-      <rect x="14" y="42" width="52" height="30" rx="10" fill={avatar.top} />
+      <rect x="18" y={torsoY} width="44" height="32" rx="8" fill={avatar.top} />
 
       {label && (
         <text
           x="40"
-          y="60"
+          y={torsoY + 18}
           textAnchor="middle"
           dominantBaseline="middle"
           fill={avatar.nameColor}
@@ -98,34 +86,14 @@ export function LegoAvatar({
         </text>
       )}
 
-      {/* neck */}
-      <rect x="35" y="34" width="10" height="10" rx="3" fill={avatar.skin} />
-
       {/* head */}
-      <circle cx="40" cy="22" r="16" fill={avatar.skin} />
+      <circle cx="40" cy="22" r="16" fill={AVATAR_SKIN} />
 
-      {/* hair */}
-      {avatar.hairStyle === "long" ? (
-        <>
-          <path
-            d="M24 22 C24 8, 56 8, 56 22 L56 18 C56 6, 24 6, 24 18 Z"
-            fill={avatar.hair}
-          />
-          <path
-            d="M22 20 C20 28, 22 42, 26 48 L30 42 C28 34, 28 24, 30 18 Z"
-            fill={avatar.hair}
-          />
-          <path
-            d="M58 20 C60 28, 58 42, 54 48 L50 42 C52 34, 52 24, 50 18 Z"
-            fill={avatar.hair}
-          />
-        </>
-      ) : (
-        <path
-          d="M24 20 C24 8, 56 8, 56 20 L56 14 C56 6, 24 6, 24 14 Z"
-          fill={avatar.hair}
-        />
-      )}
+      {/* hair band */}
+      <path
+        d="M24 20 C24 8, 56 8, 56 20 L56 16 C56 6, 24 6, 24 16 Z"
+        fill={avatar.hair}
+      />
 
       {/* face */}
       <circle cx="34" cy="22" r="2.2" fill="#1f2937" />
