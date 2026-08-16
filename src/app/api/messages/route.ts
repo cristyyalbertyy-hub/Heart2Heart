@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { clearSession, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { isGoodbyeMessage } from "@/lib/chat";
 import { prisma } from "@/lib/prisma";
 import { isVoiceContent, MAX_VOICE_BYTES } from "@/lib/voice";
@@ -61,14 +61,20 @@ export async function POST(request: Request) {
     }
 
     if (isGoodbyeMessage(trimmed)) {
-      await prisma.room.delete({
-        where: { id: session.roomId },
+      await prisma.message.deleteMany({
+        where: { roomId: session.roomId },
       });
-      await clearSession();
+
+      const members = await prisma.roomMember.findMany({
+        where: { roomId: session.roomId },
+        select: { id: true, displayName: true, avatarId: true },
+        orderBy: { createdAt: "asc" },
+      });
 
       return NextResponse.json({
         goodbye: true,
         messages: [],
+        members,
       });
     }
 

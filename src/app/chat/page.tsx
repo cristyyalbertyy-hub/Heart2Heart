@@ -78,7 +78,12 @@ export default function ChatPage() {
     if (!response.ok) return;
 
     const data = await response.json();
-    setMessages(data.messages);
+    setMessages((current) => {
+      if (current.length > 0 && data.messages.length === 0) {
+        setNotice("Messages were cleared. Everyone is still in the room.");
+      }
+      return data.messages;
+    });
     if (data.members) {
       setMembers(data.members);
     }
@@ -159,8 +164,11 @@ export default function ChatPage() {
       setContent("");
 
       if (data.goodbye) {
-        router.replace("/");
-        router.refresh();
+        setMessages([]);
+        if (data.members) {
+          setMembers(data.members);
+        }
+        setNotice("Messages were cleared. Everyone is still in the room.");
         return;
       }
 
